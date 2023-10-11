@@ -1,0 +1,30 @@
+-- biblioteca
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all; -- Uso da biblioteca correta
+
+-- temos 3: entradas x, seletor, saida y 
+-- X == 16 entradas com 8 bits
+-- sel == 4 bits 2^4==16
+-- Y == 1 saida com 8 bits
+
+entity aula230830 is
+    generic (
+        N_SELETOR : integer := 2; --Numero de bits seletor
+        BITS_POR_ENTRADA : integer := 2  -- Número de bits por entrada
+    );
+    port (
+        Seletor : in STD_LOGIC_VECTOR(N_SELETOR-1 downto 0); -- Seletor
+        X : in STD_LOGIC_VECTOR(BITS_POR_ENTRADA*2**N_SELETOR-1 downto 0); -- Entradas do multiplexador
+        Y : out STD_LOGIC_VECTOR(BITS_POR_ENTRADA-1 downto 0); -- Saída do multiplexador
+		  LED: out STD_LOGIC_VECTOR(9-N_SELETOR downto 0) -- Saída do multiplexador
+    );
+end aula230830;
+
+architecture MUX_GENERICO of aula230830 is
+begin
+		    
+    Y <= X((to_integer(unsigned(Seletor)) * BITS_POR_ENTRADA) + BITS_POR_ENTRADA - 1 downto to_integer(unsigned(Seletor)) * BITS_POR_ENTRADA);
+	 LED <= (others=>'0');
+
+end MUX_GENERICO;
